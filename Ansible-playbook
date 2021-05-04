@@ -1,0 +1,25 @@
+- hosts:
+  tasks: ipaddress
+  - name: Creating Directory to mount iso image
+    file:
+      state: directory
+      path: "/dvd"
+  - name: Mounting iso image to directory
+    mount:
+       src: "/dev/sr0"
+       path: "/dvd"
+       state: mounted
+       fstype: "iso9660"
+  - name: creating yum repository for AppStream
+    yum_repository:
+       baseurl: "file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/AppStream"
+       name: "Appstream"
+       description: "MyDvd1"
+       gpgcheck: no
+ - name: Creating yum repository for BaseOs
+   yum_repository:
+       baseurl:  "file:///run/media/root/RHEL-8-0-0-BaseOS-x86_64/BaseOS"
+       name: "BaseOS"
+       description: "MyDvd2"
+       gpgcheck: no
+       
